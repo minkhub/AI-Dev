@@ -21,23 +21,25 @@
     <div class="container">
         <div id="content" style="margin-top:2em">
             <h2>URL Classifier</h2>
-
-            <div>
-                <form action="{{ url_for('index') }}" method="post">
-                    <label for="URL">URL:</label>
-                    <input type="text" name="url" id="URL" placeholder="Enter URL" required>
-                    <button type="submit" id="btn-predict">Predict!</button>
-                    <!-- <a href="/templates/result.html" target="_blank">Predict!</a> -->
-
-                </form>
-
-                <div class="loader" style="display:none;"></div>
-
-                <h3 id="result">
-                    <span> </span>
-                </h3>
-
-            </div>
+            When the probability of malicious activity for a website is 80% or higher, it is classified as malicious.
+            <p>
+                <div>
+                    <form action="{{ url_for('index') }}" method="post">
+                        <label for="URL">URL:</label>
+                        <input type="text" name="url" id="URL" placeholder="Enter URL" required>
+                        <button type="submit" id="btn-predict">Predict!</button>
+                        <!-- <a href="/templates/result.html" target="_blank">Predict!</a> -->
+    
+                    </form>
+    
+                    <div class="loader" style="display:none;"></div>
+    
+                    <h3 id="result">
+                        <span> </span>
+                    </h3>
+    
+                </div>
+            </p>
         </div>
     </div>
 </body>
