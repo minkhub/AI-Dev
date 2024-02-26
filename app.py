@@ -6,7 +6,7 @@ from keras.models import load_model
 import math
 
 # Flask utils
-from flask import Flask, request,render_template
+from flask import Flask, request,render_template, jsonify
 
 # Define a flask app
 app = Flask(__name__)
@@ -122,23 +122,33 @@ def url_preprocess(url):
     df = df.astype(float)
     return df
 
-@app.route('/templates/index.html', methods =["GET", "POST"])
+@app.route('/', methods =["GET", "POST"])
 def index():
     if request.method == "POST":
-       return predict()
-    return render_template("index.html")
+       return predict(request.form.get("url"))
+    return render_template("index1.html")
 
-@app.route('/templates/result.html', methods =["GET", "POST"])
+@app.route('/predict', methods =["GET", "POST"])
 def predict():
     url = request.form.get("url")
     df = url_preprocess(url)
     #predictions = model_predict(df, model)
     result=model.predict(df)
     result=float(result)
-    result = math.floor(result * 100000) / 100000
-    print(result)
-    return render_template("result.html", result = result)
+    result = (math.floor(result * 100000) / 100000)
+    malicious_probability = result * 100
+    if result >= 0.8:
+        website_status = "MALICIOUS!!!"
+    else:
+        website_status = "BENIGN!!!"
 
+    # Create a dictionary containing the data to send to the frontend
+    result = {
+        "website_status": website_status,
+        "malicious_probability": malicious_probability
+    }
+
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
