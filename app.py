@@ -122,11 +122,11 @@ def url_preprocess(url):
     df = df.astype(float)
     return df
 
-@app.route('/', methods =["GET", "POST"])
+@app.route('/templates/index.html', methods =["GET", "POST"])
 def index():
     if request.method == "POST":
        return predict(request.form.get("url"))
-    return render_template("index1.html")
+    return render_template("index.html")
 
 @app.route('/predict', methods =["GET", "POST"])
 def predict():
